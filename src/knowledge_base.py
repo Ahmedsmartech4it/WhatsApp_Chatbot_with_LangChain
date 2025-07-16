@@ -15,7 +15,7 @@ class KnowledgeBase:
         self.df = pd.read_csv(path, encoding="utf-8-sig").fillna("")
         logger.info(f"✅ تم تحميل قاعدة المعرفة من {path}")
         
-        # تحويل الأسعار والكميات إلى أرقام
+        
         self.df['السعر (جنيه مصري)'] = self.df['السعر (جنيه مصري)'].apply(self._convert_price_to_number)
         self.df['الكمية في المخزن'] = self.df['الكمية في المخزن'].apply(self._convert_qty_to_number)
 
@@ -23,11 +23,11 @@ class KnowledgeBase:
         query = query.lower().strip()
         results = []
         
-        # أولاً: البحث عن مطابقة كاملة أو جزئية
+       
         for _, row in self.df.iterrows():
             product = row['اسم المنتج'].lower().strip()
             
-            # إذا كان الاستعلام يحتوي على كلمات من اسم المنتج
+        
             if any(word in product for word in query.split()):
                 results.append({
                     "اسم_المنتج": row['اسم المنتج'],
@@ -35,13 +35,13 @@ class KnowledgeBase:
                     "الكمية": row['الكمية في المخزن']
                 })
         
-        # إذا لم نجد نتائج، نبحث باستخدام تشابه النصوص
+        
         if not results:
             for _, row in self.df.iterrows():
                 product = row['اسم المنتج'].lower().strip()
                 similarity = SequenceMatcher(None, query, product).ratio()
                 
-                if similarity > 0.6:  # إذا كان التشابه أكثر من 60%
+                if similarity > 0.6: 
                     results.append({
                         "اسم_المنتج": row['اسم المنتج'],
                         "السعر": f"{row['السعر (جنيه مصري)']:.2f} جنيه",
@@ -54,17 +54,17 @@ class KnowledgeBase:
 
     def _convert_price_to_number(self, price_text: str) -> float:
         try:
-            # تحويل النص مثل "سبعة وخمسون جنيهًا وستون قرشًا" إلى 57.60
+            
             words = price_text.split()
             total = 0.0
             
-            # معالجة الجنيهات
+         
             if 'جنيهًا' in words or 'جنيه' in words:
                 idx = words.index('جنيهًا') if 'جنيهًا' in words else words.index('جنيه')
                 num_words = ' '.join(words[:idx])
                 total += self._words_to_number(num_words)
             
-            # معالجة القروش
+           
             if 'قرشًا' in words or 'قرش' in words:
                 idx = words.index('قرشًا') if 'قرشًا' in words else words.index('قرش')
                 num_words = ' '.join(words[idx-1:idx])
@@ -76,14 +76,14 @@ class KnowledgeBase:
 
     def _convert_qty_to_number(self, qty_text: str) -> int:
         try:
-            # تحويل النص مثل "مائة واثنان وخمسون منتجًا" إلى 152
+            
             words = qty_text.replace('منتجًا', '').replace('منتجات', '').strip()
             return self._words_to_number(words)
         except:
             return 0
 
     def _words_to_number(self, text: str) -> int:
-        # قاموس لتحويل الكلمات إلى أرقام
+        
         word_to_num = {
             'واحد': 1, 'اثنان': 2, 'ثلاثة': 3, 'أربعة': 4, 'خمسة': 5,
             'ستة': 6, 'سبعة': 7, 'ثمانية': 8, 'تسعة': 9, 'عشرة': 10,
