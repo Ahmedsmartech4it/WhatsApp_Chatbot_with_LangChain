@@ -1,0 +1,52 @@
+# Python files
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+*.env
+
+#IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Data files (exclude data directory if sensitive)
+data/
+*.csv
+*.pdf
+*.json
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Jupyter notebooks
+*.ipynb_checkpoints
+
+# Logs
+*.log
+
+# FastAPI and Uvicorn
+*.pid
+*.sock
+
+# macOS
+*.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db

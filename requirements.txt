@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+langchain
+langchain-openai
+langchain-community
+langchain-core
+langsmith
+requests
+openai
+pandas
+python-dotenv
+pydub
+groq
+elevenlabs
+pandas
+numpy
+
